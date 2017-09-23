@@ -1,0 +1,86 @@
+\documentclass{beamer}
+\usepackage[UTF8,space,hyperref]{ctex}
+\usepackage{graphicxsp}
+\usetheme{}
+\author{Tomcruseal}
+\title{Regular Meeting Week 3}
+\institute{School of Computer Science and Technology SCUT }
+
+
+\begin{document}
+	
+	\frame{\titlepage}
+	
+	
+
+    
+    \begin{frame}广义N体问题
+    	\begin{itemize}
+    		\item 广义N体问题与大数据的结合——运用广义N体问题的求解方法优化高斯过程回归的求解过程
+    	\end{itemize}
+        $$\overline{f}_{*}=\textbf{k}_{*}^{T}(K+\sigma^2 I)^{-1}\textbf{y}$$
+        基本思路：运用空间划分数据结构(采用的是kd树)这一广义N体的方法优化矩阵$K$的计算过程从而加速$K$的运算，在训练集数据量大、维度高的情况下加快预测效率
+    \end{frame}
+    
+    \begin{frame}当前面临的主要问题：
+    	\begin{itemize}
+    		\item 求得的近似矩阵$\tilde{K}$对预测结果的正确性的影响
+    		\item 近似矩阵$\tilde{K}$不一定是半正定矩阵(不满足Mercer条件)，因此运用Cholesky分解求$(K+\sigma^2 I)$的逆会出现问题(无解)，然而此时若使用LU分解则会损失一倍的效率。
+    	
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}可能的应对策略
+        \begin{itemize}
+        	\item 对$\tilde{K}$作低秩近似
+        	\item 通过kd树的剪枝规则控制$\tilde{K}$的结构，使其成为半正定矩阵
+        	\item 通过$\sigma$超参数的设置使$(K+\sigma^2 I)$成为可逆矩阵(模型选择？经验选取？)
+        	\item 对$\tilde{K}$施加约束，利用凸优化的思想找到最合适的半正定矩阵(优化计算时间？)
+        	\item 不管，求解$(K+\sigma^2 I)$的广义逆矩阵(不确定有没有比Cholesky更快且稳定的求解方法)
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}一些不着边际的想法
+    	\begin{itemize}
+    	    \item 由于scikit-learn是基于内存的计算，当矩阵规模超过一定数值是会产生“MemoryError”错误。原因：numpy数组中，一个float64占用8字节，因此$1000000\times100$的矩阵会占用约800MB的内存。考虑使用数据库进行优化(pytables)
+    	    \item 核函数的选择，后期可以试用不同的核函数、选取不同的参数
+    	    \item 对于适当的数据集会有很好的效果	
+    	\end{itemize}
+        
+    \end{frame}
+
+    \begin{frame}微服务
+        一个比较新的概念——云函数
+        IaaS, PaaS, SaaS, FaaS(函数即服务)
+        特点：
+        \begin{itemize}
+        	\item 事件驱动
+        	\item 无需管理服务器等基础设施
+        	\item 弹性、可靠
+        \end{itemize}        
+    \end{frame}
+
+    \begin{frame}
+        亚马逊lambdas与容器、虚拟机、传统物理机的对比
+        \begin{figure}
+        	\centering
+            \includegraphics[height=1.5in]{1.png}
+        \end{figure}
+        
+    \end{frame}
+
+    \begin{frame}应用场景
+    	\begin{itemize}
+    		\item 突发性的、计算密集的负载(如社交软件中的视频、图片的处理)
+    		\item 后端：可实现无服务器后端，无需考虑弹性扩展、备份冗余，降低运维成本
+    		\item 周期性/计划性的庞大数据量的处理
+    		
+    	\end{itemize}
+    
+    \end{frame}
+
+    \begin{frame}
+        \centering Thank you!
+    \end{frame}
+
+\end{document}
