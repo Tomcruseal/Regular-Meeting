@@ -1,0 +1,185 @@
+\documentclass{beamer}
+\usepackage[UTF8,space,hyperref]{ctex}
+\usepackage{graphicxsp}
+\usetheme{}
+\author{Tomcruseal}
+\title{Regular Meeting Week 4}
+\institute{School of Computer Science and Technology SCUT }
+
+
+\begin{document}
+	
+	\frame{\titlepage}
+	
+
+
+
+    
+    \begin{frame}论文分享
+    	\begin{itemize}
+    		\item Report from workshop and panel on the Status of
+    		Serverless Computing and Function-as-a-Service
+    		(FaaS) in Industry and Research
+    	\end{itemize}
+        
+    \end{frame}
+    
+    \begin{frame}
+    	\begin{itemize}
+    		\item The authors believe that serverless computing is not only an exciting platform for researchers
+    		to explore but also for academia to use.
+    		%\item 
+    	
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}Serverless 和FaaS的基本概念
+        \begin{itemize}
+        	\item 起源，P2P
+        	\item 在云环境中的定义，SaaS、Google App Engine
+        	\item 最新的Serverless解决方案：really server-hidden,built to host functions,hide run and scale
+        	\item run on-demand scale on-demand
+        	
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}IBM的定义
+    	\begin{itemize}
+    	    \item A cloud-native platform
+    	    \item For short-running, stateless computation
+    	    \item And event-driven applications
+    	    \item which scales up and down instantly and
+    	    automatically
+    	    \item And charges for actual usage at a
+    	    millisecond granularity
+    	\end{itemize}
+        
+    \end{frame}
+
+    \begin{frame}serverless的优点\\
+        serverless擅长：短时运行、无状态、事件驱动
+        \begin{itemize}
+        	\item 微服务
+        	\item 移动后端
+        	\item 机器人、机器学习推断
+        	\item 物联网
+        	\item 适度的流处理
+        	\item 服务集成
+        \end{itemize}        
+    \end{frame}
+
+    \begin{frame}serverless的缺点\\
+        serverless不擅长:长时运行、有状态、大量的数字计算
+       \begin{itemize}
+       	\item 数据库
+       	\item 深度学习训练
+       	\item 高负载的流分析
+       	\item Spark/Hadoop分析
+       	\item 数值模拟
+       	\item 视频流
+       \end{itemize}
+        
+    \end{frame}
+
+    \begin{frame}
+    	\begin{itemize}
+    		\item 突发性的、计算密集的负载(如社交软件中的视频、图片的处理)
+    		\item 后端：可实现无服务器后端，无需考虑弹性扩展、备份冗余，降低运维成本
+    		\item 周期性/计划性的庞大数据量的处理
+    		
+    	\end{itemize}
+        No server is better to manage than no server
+    \end{frame}
+
+    \begin{frame}基于FaaS的MapReduce--Pywren
+        Pywren lets you run your existing python code at massive scale via AWS Lambda
+        \begin{figure}
+        	\centering
+        	\includegraphics[height=2.7in]{3.png}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}Serverless和FaaS的关系
+    	\begin{figure}
+    		\centering
+    		\includegraphics[height=2.5in]{4.png}
+    	\end{figure}
+    \end{frame}
+
+    \begin{frame}What is new about Serverless?
+    	
+        云生态环境提供了一系列中间件和人工智能服务，使得FaaS可以应用到
+        \begin{itemize}
+        	\item NLP
+        	\item image recognition
+        	\item manage state
+        	\item record and monitor logs
+        	\item send alerts
+        	\item trigger events
+        	\item perform authentication and authorization
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}Stateless是否是不可或缺的？
+    	
+        将状态存储在FaaS之外使大数据触发多种微服务调用成为可能(Spark)
+    \end{frame}
+    
+    \begin{frame}Can serverless work for longer running tasks?
+    	
+        目前，阿里云函数计算、AWS Lambda的函数最大运行时间均被限制到300秒以内。
+        Alternative：
+        \begin{itemize}
+        	\item manage long running flows by combining multiple (small) FaaS invocations
+        	\item handoff long running jobs to a different container service.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}编程模型
+    	
+        FaaS和大数据编程环境的结合(Spark,Flink,Hadoop,Storm,Heron)
+        event-based programming
+    \end{frame}
+    
+    \begin{frame}吹了这么多，那么Serverless和FaaS有什么缺点呢？
+        \begin{itemize}
+        	\item 使用docker、OpenStack时的扩展性问题
+        	\item Serverless的计价方式
+        	\item SLA
+        	\item QoS
+        	\item ...
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}Current Serverless Systems
+        \begin{itemize}
+        	\item OpenWhisk
+        	\item Google Cloud Functions,AWS Lambda,Azure Functions
+        	\item 腾讯云无服务器云函数，阿里云函数计算
+        	\item Pipsqueak,OpenLambda
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}Can serverless help with scientific research?
+    	
+        Do have major importance for science and engineering research!
+        \begin{itemize}
+        	\item science data management
+        %	\item 
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}Future: What are low hanging fruits for serverless?
+    	\begin{itemize}
+    		\item applied to general purpose computing
+    		\item 5 minute kill limit disappear
+    		\item extend the MapReduce use of FaaS
+    	\end{itemize}
+        
+    \end{frame}
+
+    \begin{frame}
+        \centering Thank you!
+    \end{frame}
+
+\end{document}
