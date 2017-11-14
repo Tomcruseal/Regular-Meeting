@@ -1,0 +1,155 @@
+\documentclass{beamer}
+\usepackage[UTF8,space,hyperref]{ctex}
+\usepackage{graphicxsp}
+\usetheme{}
+%\usepackage{listings}
+\author{李智博}
+\title{Regular Meeting Week 8}
+\institute{School of Computer Science and Technology SCUT }
+
+
+\begin{document}
+
+	\frame{\titlepage}
+	
+
+
+
+   
+    \begin{frame}基于腾讯无服务器云函数SCF的demo
+    	\begin{itemize}
+    		\item 无服务器云函数（Serverless Cloud Function）是腾讯云提供的无服务器（serverless）执行环境，用户无需购买和管理服务器，而只需使用平台支持的语言编写核心代码并设置代码运行的条件，代码即可在腾讯云基础设施上弹性、安全地运行。腾讯云完全管理底层计算资源，包括服务器 CPU、内存、网络和其他配置资源维护、代码部署、弹性伸缩、负载均衡等
+    	\end{itemize}
+        
+    \end{frame}
+    
+    \begin{frame}
+    	\begin{itemize}
+    		\item 应用场景：视频应用、社交应用等场景下，用户上传的图片、音视频的总量大频率高，对移动应用的实时性和并发能力都有较高的要求
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}构思：基于示例代码，利用无服务器函数处理图片
+        \begin{itemize}
+        	\item 用户上传图片至对象存储(COS)
+        	\item 云函数从对象存储处下载图片并处理
+        	\item 返回处理后的图片至对象存储
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}实现流程
+    	\begin{itemize}
+    	    \item 创建函数与COS bucket的事件源映射
+    	    \item 将对象上传到 COS 中的bucket(对象创建事件，可作为触发器trigger)
+    	    \item COS Bucket检测到对象创建事件
+    	    \item COS 调用函数并将事件数据(event)作为参数传递给函数
+    	    \item SCF 平台接收到调用请求，执行函数
+    	    \item 函数通过收到的事件数据获得了 Bucket 名称和文件名称，从该源 Bucket中获取该文件，使用图形库(PIL)处理图片，然后将其保存到目标Bucket上
+    	\end{itemize}
+    \end{frame}
+
+    \begin{frame}COS bucket准备
+        
+        \begin{itemize}
+        	\item 新建源 COS bucket
+        	\item 新建目标 COS bucket
+        	\item 上传源文件
+        \end{itemize}
+         \begin{figure}
+         	\centering
+         	\includegraphics[height=0.9in]{bucketList.png}
+         \end{figure}
+          \begin{figure}
+         	\centering
+         	\includegraphics[width=3.2in]{figureList.png}
+         \end{figure}       
+    \end{frame}
+\begin{frame}[fragile]创建部署程序包
+	\begin{itemize}
+		\item main\_handler
+		main\_handler用于处理事件
+	\end{itemize}
+	
+	
+	\begin{verbatim}
+	def main_handler(event, context):
+	\end{verbatim}
+	
+	
+	\begin{verbatim}
+	bucket = record['cos']['cosBucket']['name']
+	cosobject = record['cos']['cosObject']['key']
+	cosobject = cosobject.replace("/"+str(appid)+"/"+bucket,"")
+	key = urllib.unquote_plus(cosobject.encode('utf8'))
+	\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{itemize}
+	\item 确定COS中的下载路径、之后的上传路径
+	
+\end{itemize}
+
+
+\begin{verbatim}
+download_path = '/tmp/{}{}'.format(uuid.uuid4(), key.split('/')[-1])
+upload_path = '/tmp/resized-{}'.format(key.split('/')[-1])
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+
+\begin{verbatim}
+request = DownloadFileRequest(bucket, key, download_path)
+downloadFileRet = cos_client.download_file(request)
+\end{verbatim}
+\end{frame}
+    \begin{frame}[fragile]
+      \begin{itemize}
+	    \item 利用Python的Pillow库构建图片处理函数
+      \end{itemize}
+
+
+      \begin{verbatim}
+        def processImage(origionalpath, resultpath):
+          with Image.open(origional$backslash$path) as image:
+          image.convert('L')
+          image.save(resultpath)
+      \end{verbatim}
+
+\end{frame}
+
+    \begin{frame}在控制台创建函数并测试
+    	
+        \url{https://console.cloud.tencent.com/scf/index/1/detail/imageDonkey}
+        \begin{figure}
+        	\centering
+        	\includegraphics[height=3.2in]{FassConsole.png}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}
+      \begin{itemize}
+      	\item 通过控制台的事件模板制定输入参数（）这里是对象存储中的图片
+      	\item 目前腾讯云支持四种事件模板
+      	\item 在本例中，选择“COS上传/删除文件事件模板”
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+      \begin{itemize}
+      	\item 测试程序：
+      	\item 执行完毕后，在目标bucket能查看到相应的输出
+      \end{itemize}
+      \begin{figure}
+      	\centering
+      	\includegraphics[height=5.2in]{FassResult.png}
+      \end{figure}
+    
+    \end{frame}    
+
+    \begin{frame}
+        \centering Thank you!
+    \end{frame}
+
+\end{document}
