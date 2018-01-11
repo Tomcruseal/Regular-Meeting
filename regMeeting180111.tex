@@ -1,0 +1,137 @@
+\documentclass{beamer}
+\usepackage[UTF8,space,hyperref]{ctex}
+\usepackage{graphicxsp}
+
+\usetheme{}
+%\usepackage{listings}
+\author{Tomcruseal}
+\title{Regular Meeting Week 19}
+\institute{School of Computer Science and Technology SCUT }
+
+
+\begin{document}
+
+	\frame{\titlepage} \centering 学期总结
+	
+
+
+
+   
+    \begin{frame}本学期工作简介
+    	\begin{itemize}
+    		\item 完成论文...
+    		\item 学习函数式编程兼一些scala
+    		\item FaaS and serverless架构
+    		\item actor模型
+    		\item 论文阅读
+    	\end{itemize}
+    \end{frame}
+    
+    \begin{frame}完成论文...
+    	\begin{itemize}
+    		\item Improved Gaussian Process Regression Based on Dual kd-Tree Traversal
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}函数式编程(functional programming)
+        \begin{itemize}
+        	\item functional vs imperative
+        	\item category theory(范畴论) 
+        	\item immutable state
+        	\item $\lambda$ calculus
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}functional vs imperative
+    	\begin{itemize}
+    	    \item 最直接的例子是编程实践中经常遇到的递归和循环。
+    	    \item 通常的循环是命令式编程的例子，对于一个for循环，需要维持一个内部状态(如
+    	            循环控制变量)，这个状态在每一次执行后将被更新
+    	    \item 递归是函数式编程的一个特点，如在二叉树的深度优先搜索中，遍历某节点$N$等价于
+    	            遍历其子节点$N_L$and $N_R$
+    	    \item 然而在实际应用场景中，递归的开销相当大，容易造成stack overflow,这是可以
+    	            进行尾递归优化(编译器 || 程序员)
+    	\end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \begin{itemize}
+        	\item functional data structure in scala: immutable List, Stream
+        	\item functional error handling:我们不throw错误，而是返回Option
+        \end{itemize}    
+    \end{frame}
+    
+    \begin{frame}[fragile]$\lambda$ calculus
+	    \begin{itemize}
+		    \item expression vs statement
+	    \end{itemize}
+        \begin{verbatim}
+            val = (x: Int) => x+2
+            (fn [x] x+2)
+        \end{verbatim}
+        \begin{itemize}
+        	\item $\alpha$ equivalence and $\beta$ reduction
+        \end{itemize}
+            $$\lambda x.x \equiv \lambda y.y$$ 
+            $\beta$ 规约
+        \begin{itemize}
+        	\item 0的表示、True/False的表示
+        \end{itemize}
+        $$\lambda y.\lambda x.x$$
+        $$\lambda xy.x$$
+        \begin{itemize}
+        	\item $\lambda$ 演算与图灵机模型是等价的(Turing Complete),可以在图灵机上模拟。
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \begin{itemize}
+        	\item FaaS,函数即服务
+        	\item serverless架构，即无服务器架构
+        \end{itemize}
+        FaaS和severless架构具有以下特点
+        \begin{itemize}
+            \item 事件驱动
+            \item 客户无需管理服务器等基础设施
+            \item 弹性、高可靠
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}FaaS和Serverless架构的前景与挑战
+        \begin{itemize}
+        	\item 面向云环境的编程模型
+        	\item 业务逻辑与操作逻辑的分离
+        	\item 混合云
+        	\item cost/performance
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}应用场景
+        \begin{itemize}
+        	\item 科学计算(pywren,Supercomputing as a Service...)
+        	\item web 应用(失联儿童回家,与人工智能API结合，在线图片、视频解码...)
+        	\item 实时流式数据处理
+        	\item 移动后端
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}actor模型
+         \begin{itemize}
+        	\item actor模型是一种基于消息传递(mailbox)的分布式计算模型
+        	\item 数据不可变
+        	\item 状态
+         \end{itemize}
+    \end{frame}
+        
+    \begin{frame}论文阅读
+        \begin{itemize}
+        	\item storm
+        	\item ...
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}
+        \centering Thank you!
+    \end{frame}
+
+\end{document}
